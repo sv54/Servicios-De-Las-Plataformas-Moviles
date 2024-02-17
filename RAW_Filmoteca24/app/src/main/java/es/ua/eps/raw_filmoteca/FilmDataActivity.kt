@@ -19,6 +19,7 @@ class FilmDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initUI()
 
+
         index = intent.getIntExtra(EXTRA_FILM_ID, -1)
         loadMovieData(index)
     }
