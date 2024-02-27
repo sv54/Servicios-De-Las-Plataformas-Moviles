@@ -22,7 +22,11 @@
             android:name=".FilmDataActivity"
             android:exported="false" />
         <activity
+<<<<<<< HEAD
             android:name=".SignInGoogleActivity"
+=======
+            android:name=".SingInGoogleActivity"
+>>>>>>> ff5a6506e38c99ca365b611f5ab9deb01392f08e
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
