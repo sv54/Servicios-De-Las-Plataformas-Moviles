@@ -5,43 +5,80 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.firestore.core.UserData
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.GetPasswordOption
+import androidx.credentials.GetPublicKeyCredentialOption
+import androidx.credentials.PasswordCredential
+import androidx.credentials.PublicKeyCredential
+import androidx.credentials.exceptions.GetCredentialException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SingInGoogleActivity : AppCompatActivity() {
-
-    val sign_in_button: Button = findViewById(R.id.sign_in_button)
-    lateinit var mGoogleSignInClient: GoogleSignInClient;
+    // Use your app or activity context to instantiate a client instance of
+// CredentialManager.
+    private lateinit var credentialManager: CredentialManager
+    private lateinit var loginButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_sing_in_google)
 
-        val gso: GoogleSignInOptions  = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail().build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        sign_in_button.setOnClickListener {
-            signIn()
+        credentialManager = CredentialManager.create(this)
+        loginButton = findViewById(R.id.loginButton)
+        // Assuming you have a button for login, you can initiate the login process here
+        // For example:
+        loginButton.setOnClickListener {
+            initiateLogin()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        var account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(this)
-        if (account != null){
-            //updateUI(account)
+    private fun initiateLogin() {
+        val getPasswordOption = GetPasswordOption()
+        val getPublicKeyCredentialOption = GetPublicKeyCredentialOption(requestJson = "")
+
+        val getCredRequest = GetCredentialRequest(listOf(getPasswordOption, getPublicKeyCredentialOption))
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val result = getCredentialAsync(getCredRequest)
+                handleSignIn(result)
+            } catch (e: GetCredentialException) {
+                handleFailure(e)
+            }
         }
     }
 
-    fun signIn(){
-        var signInIntent: Intent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, 1);
-
+    private suspend fun getCredentialAsync(request: GetCredentialRequest): GetCredentialResponse {
+        return withContext(Dispatchers.IO) {
+            credentialManager.getCredential(context = applicationContext, request = request)
+        }
     }
 
+    private fun handleSignIn(result: GetCredentialResponse) {
+        val credential = result.credential
 
+        when (credential) {
+            is PublicKeyCredential -> {
+                val responseJson = credential.authenticationResponseJson
+                // Handle PublicKeyCredential response
+            }
+            is PasswordCredential -> {
+                val username = credential.id
+                val password = credential.password
+                // Handle PasswordCredential response
+            }
+            else -> {
+                // Handle other credential types if needed
+            }
+        }
+    }
+
+    private fun handleFailure(exception: GetCredentialException) {
+        // Handle failure here
+    }
 }
