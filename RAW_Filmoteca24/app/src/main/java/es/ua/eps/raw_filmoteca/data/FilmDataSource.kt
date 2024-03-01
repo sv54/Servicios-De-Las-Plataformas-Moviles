@@ -54,4 +54,9 @@ object FilmDataSource {
     fun add(f: Film) {
         films.add(f)
     }
+
+    fun delete(){
+        films.removeLast()
+    }
+
 }

@@ -3,15 +3,20 @@ package es.ua.eps.raw_filmoteca
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
+import es.ua.eps.raw_filmoteca.data.Film
 import es.ua.eps.raw_filmoteca.data.FilmDataSource
 import es.ua.eps.raw_filmoteca.data.FilmsArrayAdapter
 import es.ua.eps.raw_filmoteca.databinding.ActivityFilmListBinding
@@ -22,7 +27,6 @@ class FilmListActivity : BaseActivity()
     , AdapterView.OnItemClickListener {
 
     private lateinit var bindings : ActivityFilmListBinding
-    private lateinit var filmAdapter: FilmsArrayAdapter
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private lateinit var account: GoogleSignInAccount;
     //---------------------------------
@@ -75,8 +79,25 @@ class FilmListActivity : BaseActivity()
             finish()
         }
         if (id == R.id.add) {
-            intent = Intent(this, AboutActivity::class.java)
-            startActivity(intent)
+            var f = Film()
+
+            f.title = "Kung Fu Panda 4"
+            f.director = "Mike Mitchell, Stepahine Stine"
+            //f.imageUrl = "http://www.imdb.com/title/tt0088763"//"https://pics.filmaffinity.com/the_princess_bride-741508250-large.jpg"
+            f.imageUrl = "https://dx35vtwkllhj9.cloudfront.net/universalstudios/kung-fu-panda-4/images/regions/us/onesheet.jpg"
+            f.comments = ""
+            f.format = Film.Format.Digital
+            f.genre = Film.Genre.Comedy
+            f.imdbUrl = "https://www.imdb.com/title/tt21692408/"
+            f.year = 2024
+            FilmDataSource.films.add(f)
+
+            filmAdapter.notifyDataSetChanged()
+        }
+        if (id == R.id.delete){
+            FilmDataSource.delete()
+            filmAdapter.notifyDataSetChanged()
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -105,6 +126,10 @@ class FilmListActivity : BaseActivity()
         intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
         intent.putExtra(FilmDataActivity.EXTRA_FILM_ID, index)
         startActivity(intent)
+    }
+
+    companion object{
+        lateinit var filmAdapter: FilmsArrayAdapter
     }
 
 }

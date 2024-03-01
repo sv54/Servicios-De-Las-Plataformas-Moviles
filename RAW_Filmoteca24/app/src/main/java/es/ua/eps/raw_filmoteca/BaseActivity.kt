@@ -91,6 +91,7 @@ open class BaseActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+
     //---------------------------------
     // Permissions
     //---------------------------------

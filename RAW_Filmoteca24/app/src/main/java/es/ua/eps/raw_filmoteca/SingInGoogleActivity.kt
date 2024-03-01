@@ -2,6 +2,8 @@ package es.ua.eps.raw_filmoteca
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +11,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
+import es.ua.eps.raw_filmoteca.data.Film
+import es.ua.eps.raw_filmoteca.data.FilmDataSource
 
 
 class SingInGoogleActivity : AppCompatActivity() {
@@ -31,6 +35,37 @@ class SingInGoogleActivity : AppCompatActivity() {
 
         signInButton.setOnClickListener {
             signIn()
+        }
+
+        var f = Film()
+        if(intent.extras?.getString("NotifTitulo") == "New"){
+
+            f.title = intent.extras?.getString("Titulo")
+            f.director = intent.extras?.getString("Director")
+            //f.imageUrl = "http://www.imdb.com/title/tt0088763"//"https://pics.filmaffinity.com/the_princess_bride-741508250-large.jpg"
+            f.imageUrl = intent.extras?.getString("Imagen")
+            f.comments = ""
+            f.format = Film.Format.valueOf(intent.extras?.getString("Formato").toString())
+            f.genre = Film.Genre.valueOf(intent.extras?.getString("Genero").toString())
+            f.imdbUrl = intent.extras?.getString("Imdb")
+            f.year = intent.extras?.getString("Año")!!.toInt()
+            FilmDataSource.films.add(f)
+//            Handler(Looper.getMainLooper()).post{
+//                FilmListActivity.filmAdapter.notifyDataSetChanged()
+//            }
+        }
+
+        if(intent.extras?.getString("NotifTitulo") == "Delete"){
+
+            val title = intent.extras?.getString("Titulo")
+
+            val find = FilmDataSource.films.find{ it.title == title}
+            if(find != null){
+                FilmDataSource.films.remove(find)
+//                Handler(Looper.getMainLooper()).post{
+//                    FilmListActivity.filmAdapter.notifyDataSetChanged()
+//                }
+            }
         }
     }
 

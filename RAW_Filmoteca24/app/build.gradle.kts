@@ -2,6 +2,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -55,6 +56,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.mediarouter:mediarouter:1.6.0")
+    implementation("com.google.firebase:firebase-messaging:23.4.1")
 
     testImplementation("junit:junit:4.13.2")
 
@@ -67,6 +69,7 @@ dependencies {
     // optional - needed for credentials support from play services, for devices running
     // Android 13 and below.
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
 }
 
 
