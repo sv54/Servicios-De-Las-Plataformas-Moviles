@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "705999868777",
+    "project_id": "filmoteca-414616",
+    "storage_bucket": "filmoteca-414616.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705999868777:android:13f16df945368b410fe3f8",
+        "android_client_info": {
+          "package_name": "es.ua.eps.raw_filmoteca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705999868777-q0hidmro39urc4vp381gim9rlhvng2bc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.ua.eps.raw_filmoteca",
+            "certificate_hash": "08e683fd661a5891725994970ed204ac9bf3726e"
+          }
+        },
+        {
+          "client_id": "705999868777-immv0v89sb1tuhbrl4b0dr5o4pt7646m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkoMxF4F_mrYqU-ZyCDOUA-8AZuH1XRfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705999868777-immv0v89sb1tuhbrl4b0dr5o4pt7646m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
