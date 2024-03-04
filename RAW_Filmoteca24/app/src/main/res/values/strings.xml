@@ -10,5 +10,6 @@
     <string name="server_client_id">705999868777-q0hidmro39urc4vp381gim9rlhvng2bc.apps.googleusercontent.com</string>
     <string name="server_client_id_web">705999868777-immv0v89sb1tuhbrl4b0dr5o4pt7646m.apps.googleusercontent.com</string>
     <string name="server_client_id_gCloud">630596263456-ka36vdd3mpstig3snu93hagi5ncmhptk.apps.googleusercontent.com</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>

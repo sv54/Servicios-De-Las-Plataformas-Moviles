@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -17,6 +18,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -57,6 +59,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.mediarouter:mediarouter:1.6.0")
     implementation("com.google.firebase:firebase-messaging:23.4.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     testImplementation("junit:junit:4.13.2")
 
@@ -65,6 +68,7 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-auth:20.0.0")
     implementation("androidx.credentials:credentials:1.3.0-alpha01")
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
 
     // optional - needed for credentials support from play services, for devices running
     // Android 13 and below.

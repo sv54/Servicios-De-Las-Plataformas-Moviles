@@ -17,6 +17,9 @@ object FilmDataSource {
         f.genre      = Film.Genre.SciFi
         f.imdbUrl    = "http://www.imdb.com/title/tt0088763"
         f.year       = 1985
+        f.lat = 33.76346227559892
+        f.lon = -118.23701106456677
+        f.geocercado = true
         films.add(f)
 
         f = Film()
@@ -28,6 +31,9 @@ object FilmDataSource {
         f.genre = Film.Genre.Comedy
         f.imdbUrl = "https://www.imdb.com/title/tt0087332"
         f.year = 1984
+        f.lat = 40.71550940318287
+        f.lon = -74.00574012415866
+        f.geocercado = true
         films.add(f)
 
         f = Film()
@@ -40,6 +46,9 @@ object FilmDataSource {
         f.genre = Film.Genre.Fantasy
         f.imdbUrl = "https://www.filmaffinity.com/es/film579602.html"
         f.year = 1987
+        f.lat = 51.542289389305985
+        f.lon = -0.6473200399613228
+        f.geocercado = true
         films.add(f)
 
         // Añade tantas películas como quieras!

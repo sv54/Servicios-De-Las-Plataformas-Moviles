@@ -49,6 +49,9 @@ class SingInGoogleActivity : AppCompatActivity() {
             f.genre = Film.Genre.valueOf(intent.extras?.getString("Genero").toString())
             f.imdbUrl = intent.extras?.getString("Imdb")
             f.year = intent.extras?.getString("Año")!!.toInt()
+            f.lat = intent.extras?.getString("Lat")!!.toDouble()
+            f.lon = intent.extras?.getString("Lon")!!.toDouble()
+            f.geocercado = intent.extras?.getString("Geo")!!.toBoolean()
             FilmDataSource.films.add(f)
 //            Handler(Looper.getMainLooper()).post{
 //                FilmListActivity.filmAdapter.notifyDataSetChanged()

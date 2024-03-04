@@ -1,8 +1,17 @@
 package es.ua.eps.raw_filmoteca
 
+import android.app.PendingIntent
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
+import com.google.android.gms.location.LocationServices
 import es.ua.eps.raw_filmoteca.data.FilmDataSource
 import es.ua.eps.raw_filmoteca.databinding.ActivityFilmDataBinding
 import es.ua.eps.raw_filmoteca.tools.OnTaskCompleted
@@ -12,16 +21,108 @@ class FilmDataActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_FILM_ID = "EXTRA_FILM_ID"
     }
+    private lateinit var botonMaps: Button
+    private lateinit var geocercadoButton: Button
     private lateinit var bindings : ActivityFilmDataBinding
     private var index = -1
+    private lateinit var geofencingClient: GeofencingClient
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initUI()
 
+        geofencingClient = LocationServices.getGeofencingClient(this)
+
+        botonMaps = findViewById(R.id.mapaButton)
+
+        botonMaps.setOnClickListener {
+            intent = Intent(this, MapsActivity::class.java)
+            intent.putExtra("INDEXPELICULA",index)
+            startActivity(intent)
+        }
 
         index = intent.getIntExtra(EXTRA_FILM_ID, -1)
         loadMovieData(index)
+
+
+
+        geocercadoButton = findViewById(R.id.geocercado)
+        if (FilmDataSource.films[index].geocercado!!){
+            geocercadoButton.text = "Desactivar Geocercado"
+        }
+        else if (!FilmDataSource.films[index].geocercado!!){
+            geocercadoButton.text = "Activar Geocercado"
+        }
+
+        geocercadoButton.setOnClickListener {
+            if (!FilmDataSource.films[index].geocercado!!){
+                geocercadoButton.text = "Desactivar Geocercado"
+                FilmDataSource.films[index].geocercado = true
+                addGeofences()
+            }
+            else if (FilmDataSource.films[index].geocercado!!){
+                geocercadoButton.text = "Activar Geocercado"
+                FilmDataSource.films[index].geocercado = false
+                removeGeofences(index.toString())
+            }
+        }
+
+
+
+
+    }
+    fun removeGeofences(geofenceRequestId: String) {
+        val geofenceRequestIds = mutableListOf<String>()
+        geofenceRequestIds.add(geofenceRequestId)
+
+        geofencingClient.removeGeofences(geofenceRequestIds)
+            .addOnSuccessListener {
+                // Geofence(s) removidos exitosamente
+            }
+            .addOnFailureListener {
+                // Error al remover el Geofence
+            }
+    }
+
+    fun getGeofencePendingIntent(): PendingIntent {
+        val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
+        return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+    private fun addGeofences() {
+        // Verificar permisos
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Manejar permisos no concedidos
+            return
+        }
+
+        val geofenceList = mutableListOf<Geofence>()
+
+        val geofence = Geofence.Builder()
+            .setRequestId(index.toString()) // Identificador único para el Geofence
+            .setCircularRegion(FilmDataSource.films[index].lat!!,FilmDataSource.films[index].lon!!, 500.0F) // Coordenadas del centro y radio en metros
+            .setExpirationDuration(Geofence.NEVER_EXPIRE) // Duración de la permanencia del Geofence
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT) // Tipos de transición a ser monitoreados
+            .build()
+
+        geofenceList.add(geofence)
+
+        val geofencingRequest = GeofencingRequest.Builder()
+            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER) // Estado inicial del Geofence
+            .addGeofences(geofenceList)
+            .build()
+
+        val pendingIntent: PendingIntent = // PendingIntent para manejar las transiciones de Geofence
+            PendingIntent.getBroadcast(this, 0, Intent(this, GeofenceBroadcastReceiver::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+
+        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
+            .addOnSuccessListener {
+                // Geofences añadidos exitosamente
+            }
+            .addOnFailureListener {
+                // Error al añadir los Geofences
+            }
     }
 
     private fun initUI() {

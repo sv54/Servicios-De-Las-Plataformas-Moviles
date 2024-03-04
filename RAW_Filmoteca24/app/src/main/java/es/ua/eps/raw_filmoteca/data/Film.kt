@@ -20,6 +20,9 @@ class Film {
     var imageUrl: String? = null
     var image: Bitmap? = null
     var loading = false
+    var lat: Double? = null
+    var lon: Double? = null
+    var geocercado: Boolean? = null
 
     //---------------------------------
     fun clone(): Film {
@@ -35,6 +38,9 @@ class Film {
         film.comments = comments
         film.imageUrl = imageUrl
         film.image = image
+        film.lon = lon
+        film.lat = lat
+        film.geocercado = geocercado
         //film.loading = loading
 
         return film

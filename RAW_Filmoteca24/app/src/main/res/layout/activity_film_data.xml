@@ -28,6 +28,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/mapaButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ver en el mapa" />
+
+            <Button
+                android:id="@+id/geocercado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Activar Geocercado" />
+
             <TextView
                 android:id="@+id/movie_title"
                 android:layout_width="match_parent"

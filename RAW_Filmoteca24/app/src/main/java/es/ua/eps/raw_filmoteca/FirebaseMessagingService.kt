@@ -128,6 +128,9 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 f.genre = Film.Genre.valueOf(data.get("Genero").toString())
                 f.imdbUrl = data.get("Imdb")
                 f.year = data.get("Año")!!.toInt()
+                f.lat = data.get("Lat")!!.toDouble()
+                f.lon = data.get("Lon")!!.toDouble()
+                f.geocercado = data.get("Geo")!!.toBoolean()
                 FilmDataSource.films.add(f)
                 Handler(Looper.getMainLooper()).post{
                     FilmListActivity.filmAdapter.notifyDataSetChanged()
@@ -149,6 +152,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
 
         }
+
+
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
