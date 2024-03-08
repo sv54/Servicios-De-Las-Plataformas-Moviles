@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ToDo.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>50FAC2A894D1159FD81653EE4C7DB788D1AE0337</string>
+				<key>dateExpires</key>
+				<string>7/3/25</string>
+				<key>type</key>
+				<string>iOS Development</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>3S952AGH46.es.ua.mastermoviles.ToDo</string>
+				<key>com.apple.developer.game-center</key>
+				<true/>
+				<key>com.apple.developer.team-identifier</key>
+				<string>3S952AGH46</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>ToDo.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>43a921cb-4dad-4af4-8594-6d5a23a64d16</string>
+				<key>dateExpires</key>
+				<string>7/3/25</string>
+				<key>name</key>
+				<string>Master Moviles ToDo</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>3S952AGH46</string>
+				<key>name</key>
+				<string>Universidad de Alicante (Dpto. de Ciencia de la Computacion e I.A.)</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
