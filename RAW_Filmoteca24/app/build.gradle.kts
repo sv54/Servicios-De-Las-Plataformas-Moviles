@@ -74,6 +74,9 @@ dependencies {
     // Android 13 and below.
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
+
+    //noinspection RiskyLibrary
+    implementation("com.google.android.gms:play-services-ads:19.7.0")
 }
 
 

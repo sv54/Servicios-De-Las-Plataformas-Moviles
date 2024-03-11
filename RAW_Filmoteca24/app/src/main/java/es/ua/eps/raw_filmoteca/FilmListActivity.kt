@@ -13,6 +13,10 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -41,12 +45,32 @@ class FilmListActivity : BaseActivity()
     private lateinit var account: GoogleSignInAccount;
     private lateinit var mFusedClient: FusedLocationProviderClient
 
+    private lateinit var mInterstitialAd: InterstitialAd
+
 
 
 
     //---------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
+
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+
+
+        val adRequest = AdRequest.Builder().build()
+        mInterstitialAd.loadAd(adRequest)
+
+        mInterstitialAd.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                if (mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                }
+            }
+        }
 
         initUI()
         checkPermission(Manifest.permission.INTERNET, {

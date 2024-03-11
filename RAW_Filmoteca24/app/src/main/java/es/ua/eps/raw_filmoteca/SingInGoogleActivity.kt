@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,6 +23,9 @@ class SingInGoogleActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        MobileAds.initialize(this) {}
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sing_in_google)
 
