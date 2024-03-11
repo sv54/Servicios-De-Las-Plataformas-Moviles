@@ -28,7 +28,6 @@ class FilmDataActivity : AppCompatActivity() {
     private lateinit var geofencingClient: GeofencingClient
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initUI()
@@ -80,9 +79,13 @@ class FilmDataActivity : AppCompatActivity() {
         geofencingClient.removeGeofences(geofenceRequestIds)
             .addOnSuccessListener {
                 // Geofence(s) removidos exitosamente
+                Log.i("tagg", "Geofences quitado exitosamente")
+
             }
             .addOnFailureListener {
                 // Error al remover el Geofence
+                Log.i("tagg", "Error al quitar los Geofences")
+
             }
     }
 
@@ -96,33 +99,43 @@ class FilmDataActivity : AppCompatActivity() {
             // Manejar permisos no concedidos
             return
         }
+        try {
+            val geofenceList = mutableListOf<Geofence>()
 
-        val geofenceList = mutableListOf<Geofence>()
+            val geofence = Geofence.Builder()
+                .setRequestId(index.toString()) // Identificador único para el Geofence
+                .setCircularRegion(FilmDataSource.films[index].lat!!,FilmDataSource.films[index].lon!!, 1500.0F) // Coordenadas del centro y radio en metros
+                .setExpirationDuration(Geofence.NEVER_EXPIRE) // Duración de la permanencia del Geofence
+                .setTransitionTypes(        Geofence.GEOFENCE_TRANSITION_ENTER or
+                        Geofence.GEOFENCE_TRANSITION_DWELL or
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                .setLoiteringDelay(5)// Tipos de transición a ser monitoreados
+                .build()
 
-        val geofence = Geofence.Builder()
-            .setRequestId(index.toString()) // Identificador único para el Geofence
-            .setCircularRegion(FilmDataSource.films[index].lat!!,FilmDataSource.films[index].lon!!, 500.0F) // Coordenadas del centro y radio en metros
-            .setExpirationDuration(Geofence.NEVER_EXPIRE) // Duración de la permanencia del Geofence
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT) // Tipos de transición a ser monitoreados
-            .build()
+            geofenceList.add(geofence)
 
-        geofenceList.add(geofence)
+            val geofencingRequest = GeofencingRequest.Builder()
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER) // Estado inicial del Geofence
+                .addGeofences(geofenceList)
+                .build()
+            val pendingIntent = getGeofencePendingIntent()
+//            val pendingIntent: PendingIntent = // PendingIntent para manejar las transiciones de Geofence
+//                PendingIntent.getBroadcast(this, 0, Intent(this, GeofenceBroadcastReceiver::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val geofencingRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER) // Estado inicial del Geofence
-            .addGeofences(geofenceList)
-            .build()
+            geofencingClient.addGeofences(geofencingRequest, pendingIntent)
+                .addOnSuccessListener {
+                    Log.i("tagg", "Geofences añadidos exitosamente")
+                    // Geofences añadidos exitosamente
+                }
+                .addOnFailureListener {
+                    Log.i("tagg", "Error al añadir los Geofences")
+                    // Error al añadir los Geofences
+                }
+        }catch (e: Exception){
+            Log.e("tagg", e.toString())
+        }
 
-        val pendingIntent: PendingIntent = // PendingIntent para manejar las transiciones de Geofence
-            PendingIntent.getBroadcast(this, 0, Intent(this, GeofenceBroadcastReceiver::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
 
-        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
-            .addOnSuccessListener {
-                // Geofences añadidos exitosamente
-            }
-            .addOnFailureListener {
-                // Error al añadir los Geofences
-            }
     }
 
     private fun initUI() {

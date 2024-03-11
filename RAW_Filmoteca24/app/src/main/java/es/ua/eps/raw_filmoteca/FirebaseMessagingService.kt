@@ -1,9 +1,16 @@
 package es.ua.eps.raw_filmoteca
 
+import android.app.PendingIntent
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -16,6 +23,7 @@ import es.ua.eps.raw_filmoteca.databinding.ActivityFilmListBinding
 class FirebaseMessagingService : FirebaseMessagingService() {
 
     private val TAG = "MyFirebaseMsgService"
+    private lateinit var geofencingClient: GeofencingClient
 
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
@@ -28,6 +36,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onCreate() {
 
+        geofencingClient = LocationServices.getGeofencingClient(this)
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
@@ -42,6 +51,43 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, msg)
             //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
         })
+    }
+
+    private fun addGeofences(index: Int) {
+        // Verificar permisos
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Manejar permisos no concedidos
+            return
+        }
+
+        val geofenceList = mutableListOf<Geofence>()
+
+        val geofence = Geofence.Builder()
+            .setRequestId(index.toString()) // Identificador único para el Geofence
+            .setCircularRegion(FilmDataSource.films[index].lat!!,FilmDataSource.films[index].lon!!, 500.0F) // Coordenadas del centro y radio en metros
+            .setExpirationDuration(Geofence.NEVER_EXPIRE) // Duración de la permanencia del Geofence
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT) // Tipos de transición a ser monitoreados
+            .build()
+
+        geofenceList.add(geofence)
+
+        val geofencingRequest = GeofencingRequest.Builder()
+            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER) // Estado inicial del Geofence
+            .addGeofences(geofenceList)
+            .build()
+
+        val pendingIntent: PendingIntent = // PendingIntent para manejar las transiciones de Geofence
+            PendingIntent.getBroadcast(this, 0, Intent(this, GeofenceBroadcastReceiver::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+
+        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
+            .addOnSuccessListener {
+                Log.i("tagg", "Geofences añadidos exitosamente")
+                // Geofences añadidos exitosamente
+            }
+            .addOnFailureListener {
+                Log.i("tagg", "Error al añadir los Geofences")
+                // Error al añadir los Geofences
+            }
     }
 
     private fun sendRegistrationToServer(token: String) {
@@ -131,7 +177,14 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 f.lat = data.get("Lat")!!.toDouble()
                 f.lon = data.get("Lon")!!.toDouble()
                 f.geocercado = data.get("Geo")!!.toBoolean()
+
+
+
                 FilmDataSource.films.add(f)
+                val index = FilmDataSource.films.indexOf(f)
+                if(f.geocercado!!){
+                    addGeofences(index)
+                }
                 Handler(Looper.getMainLooper()).post{
                     FilmListActivity.filmAdapter.notifyDataSetChanged()
                 }
