@@ -19,7 +19,7 @@ object FilmDataSource {
         f.year       = 1985
         f.lat = 33.76346227559892
         f.lon = -118.23701106456677
-        f.geocercado = true
+        f.geocercado = false
         films.add(f)
 
         f = Film()
@@ -33,7 +33,7 @@ object FilmDataSource {
         f.year = 1984
         f.lat = 40.71550940318287
         f.lon = -74.00574012415866
-        f.geocercado = true
+        f.geocercado = false
         films.add(f)
 
         f = Film()
@@ -48,9 +48,23 @@ object FilmDataSource {
         f.year = 1987
         f.lat = 51.542289389305985
         f.lon = -0.6473200399613228
-        f.geocercado = true
+        f.geocercado = false
         films.add(f)
 
+        f = Film()
+        f.title = "La princesa desprometida"
+        f.director = "Serhii"
+        //f.imageUrl = "http://www.imdb.com/title/tt0088763"//"https://pics.filmaffinity.com/the_princess_bride-741508250-large.jpg"
+        f.imageUrl = "https://es.web.img2.acsta.net/pictures/19/07/03/16/08/2300654.jpg"
+        f.comments = ""
+        f.format = Film.Format.Digital
+        f.genre = Film.Genre.Fantasy
+        f.imdbUrl = "https://www.filmaffinity.com/es/film579602.html"
+        f.year = 1987
+        f.lat = 38.5460487
+        f.lon = -0.1277011
+        f.geocercado = false
+        films.add(f)
         // Añade tantas películas como quieras!
     }
 

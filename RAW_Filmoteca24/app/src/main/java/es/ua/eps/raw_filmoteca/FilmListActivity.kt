@@ -87,23 +87,23 @@ class FilmListActivity : BaseActivity()
         mFusedClient = LocationServices.getFusedLocationProviderClient(this);
         mFusedClient.lastLocation
             .addOnSuccessListener { location : Location? ->
-                if (location != null) {
-                    for (f in FilmDataSource.films){
-                        var distanciaCalculada: Double
-                        if(f.geocercado!!){
-                            distanciaCalculada = calcularDistancia(location.latitude, location.longitude, f.lat!!, f.lon!!)
-                            if(distanciaCalculada < 0.5){
-                                Log.i("tagg", "Esta cerca de sitio de rodaje de " + f.title + "!")
-                            }
-                            else{
-                                Log.i("tagg", "Esta muy lejos: " + distanciaCalculada.toString() + "km")
-                            }
-                        }
-                    }
-                    Log.i("tagg", "Última ubicación conocida: ${location.latitude}, ${location.longitude}")
-                } else {
-                    Log.i("tagg", "No se encontró la última ubicación conocida.")
-                }
+//                if (location != null) {
+//                    for (f in FilmDataSource.films){
+//                        var distanciaCalculada: Double
+//                        if(f.geocercado!!){
+//                            distanciaCalculada = calcularDistancia(location.latitude, location.longitude, f.lat!!, f.lon!!)
+//                            if(distanciaCalculada < 0.5){
+//                                Log.i("tagg", "Esta cerca de sitio de rodaje de " + f.title + "!")
+//                            }
+//                            else{
+//                                Log.i("tagg", "Esta muy lejos: " + distanciaCalculada.toString() + "km")
+//                            }
+//                        }
+//                    }
+//                    Log.i("tagg", "Última ubicación conocida: ${location.latitude}, ${location.longitude}")
+//                } else {
+//                    Log.i("tagg", "No se encontró la última ubicación conocida.")
+//                }
             }
 
 
