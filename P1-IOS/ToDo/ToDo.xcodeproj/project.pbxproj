@@ -18,6 +18,7 @@
 		A9619C541AFFE2020023FDC7 /* ToDoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9619C531AFFE2020023FDC7 /* ToDoTableViewController.swift */; };
 		A9A3F9901B01D4D1005B8509 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3F98F1B01D4D1005B8509 /* ToDoItem.swift */; };
 		A9A5940C1B024FCF000FFF32 /* NumItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A5940B1B024FCF000FFF32 /* NumItemsViewController.swift */; };
+		C71F5C662BA3703F00155C99 /* elGatooo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C71F5C652BA3703F00155C99 /* elGatooo.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		A970EB5F1B0B8FC000A490BE /* ToDo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ToDo.entitlements; sourceTree = "<group>"; };
 		A9A3F98F1B01D4D1005B8509 /* ToDoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		A9A5940B1B024FCF000FFF32 /* NumItemsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumItemsViewController.swift; sourceTree = "<group>"; };
+		C71F5C652BA3703F00155C99 /* elGatooo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = elGatooo.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		A9619C2E1AFFD4C50023FDC7 /* ToDo */ = {
 			isa = PBXGroup;
 			children = (
+				C71F5C652BA3703F00155C99 /* elGatooo.jpg */,
 				A970EB5F1B0B8FC000A490BE /* ToDo.entitlements */,
 				A9619C311AFFD4C50023FDC7 /* AppDelegate.swift */,
 				A9619C351AFFD4C50023FDC7 /* Main.storyboard */,
@@ -182,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9619C371AFFD4C50023FDC7 /* Main.storyboard in Resources */,
+				C71F5C662BA3703F00155C99 /* elGatooo.jpg in Resources */,
 				A9619C3C1AFFD4C50023FDC7 /* LaunchScreen.xib in Resources */,
 				A9619C391AFFD4C50023FDC7 /* Images.xcassets in Resources */,
 			);

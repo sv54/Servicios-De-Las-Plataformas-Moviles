@@ -121,7 +121,7 @@ class ToDoTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
-    
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ItemsTerminados" {

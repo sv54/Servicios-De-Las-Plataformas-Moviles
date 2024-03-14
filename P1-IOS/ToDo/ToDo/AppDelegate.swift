@@ -9,13 +9,60 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UNUserNotificationCenter.current()
+            .requestAuthorization(options: [.alert, .sound, .badge])
+            { (granted, error) in print(granted)}
+
+        
+        UNUserNotificationCenter.current().delegate = self
+        
         return true
+    }
+    
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+         print("En userNotificationCenter didReceive response")
+         print("Acción seleccionada: \(response.actionIdentifier)")
+         switch response.actionIdentifier {
+         case "accion1":
+             showAlert(message: "El usuario seleccionó la accion de Aceptar")
+         case "accion2":
+             showAlert(message: "El usuario seleccionó la accion de Cancelar")
+         default:
+             break
+         
+         }
+
+         completionHandler()
+     }
+
+    
+    
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Acción seleccionada", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+
+    
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        var token = ""
+        for i in 0..<deviceToken.count {
+            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
+        }
+        print(token)
+    }
+
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register:", error)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -33,6 +80,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = self.window!.rootViewController as! UINavigationController
         let toDoTableViewController = navigationController.viewControllers[0] as! ToDoTableViewController
         toDoTableViewController.borraItems()
+        
+        print("Voy a pedir los settigs")
+        UNUserNotificationCenter.current().getNotificationSettings(completionHandler:
+                {(settings: UNNotificationSettings) in
+                    if (settings.alertSetting == UNNotificationSetting.enabled) {
+                        print("Alert enabled")
+                    } else {
+                        print("Alert not enabled")
+                    }
+                    if (settings.badgeSetting == UNNotificationSetting.enabled) {
+                        print("Badge enabled")
+                    } else {
+                        print("Badge not enabled")
+                    }})
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
