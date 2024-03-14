@@ -11,6 +11,7 @@ import CoreLocation
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var numPin = 1
+    var name = ""
     @IBOutlet var mapView: MKMapView!
 
     
@@ -64,14 +65,37 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let pin = Pin(title: "Lugar Bonito", subtitle: "pos eso", coordinate: centerCoordinate, thumbImage: nil)
         if numPin % 2 == 0 {
             pin.thumbImage = UIImage(named: "alicante2.jpeg")
+            pin.imageTitulo = "alicante2.jpeg"
         } else {
             pin.thumbImage = UIImage(named: "alicante3.jpeg")
+            pin.imageTitulo = "alicante3.jpeg"
         }
         numPin = numPin + 1
         
         mapView.addAnnotation(pin)
     }
 
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let annotation = view.annotation {
+                // Verificar si la anotación es de tipo Pin
+            if let pinAnnotation = annotation as? Pin {
+                print(pinAnnotation.imageTitulo!)
+                name = pinAnnotation.imageTitulo!
+                performSegue(withIdentifier: "DetalleImagen", sender: view)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "DetalleImagen"{
+            if let destinationViewController = segue.destination as? DetalleController {
+                
+                destinationViewController.imageName = name
+            }
+            
+        }
+    }
+    
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let pin = annotation as? Pin else {

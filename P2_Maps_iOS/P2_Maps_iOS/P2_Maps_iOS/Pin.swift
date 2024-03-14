@@ -13,6 +13,7 @@ class Pin: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     var thumbImage: UIImage?
+    var imageTitulo: String?
 
     init(title: String?, subtitle: String?, coordinate: CLLocationCoordinate2D, thumbImage: UIImage?) {
         self.title = title

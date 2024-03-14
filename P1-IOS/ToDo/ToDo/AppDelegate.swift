@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current()
             .requestAuthorization(options: [.alert, .sound, .badge])
             { (granted, error) in print(granted)}
-
+  
+        print("Token de dispositivo registrado previamente: \(UserDefaults.standard.string(forKey: "deviceToken"))")
+            
         
         UNUserNotificationCenter.current().delegate = self
         
@@ -57,8 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         for i in 0..<deviceToken.count {
             token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
         }
+        print("token: ")
         print(token)
     }
+    
 
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {

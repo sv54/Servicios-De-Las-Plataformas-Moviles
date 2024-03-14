@@ -14,6 +14,7 @@
 		C71AD4552B9B757100D8C36F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C71AD4542B9B757100D8C36F /* Assets.xcassets */; };
 		C71AD4582B9B757100D8C36F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C71AD4562B9B757100D8C36F /* LaunchScreen.storyboard */; };
 		C71AD4602B9B801D00D8C36F /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71AD45F2B9B801D00D8C36F /* Pin.swift */; };
+		C71F5C682BA3852B00155C99 /* DetalleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71F5C672BA3852B00155C99 /* DetalleController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		C71AD4572B9B757100D8C36F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C71AD4592B9B757100D8C36F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C71AD45F2B9B801D00D8C36F /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		C71F5C672BA3852B00155C99 /* DetalleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetalleController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				C71AD44D2B9B756D00D8C36F /* SceneDelegate.swift */,
 				C71AD44F2B9B756D00D8C36F /* ViewController.swift */,
 				C71AD4512B9B756D00D8C36F /* Main.storyboard */,
+				C71F5C672BA3852B00155C99 /* DetalleController.swift */,
 				C71AD4542B9B757100D8C36F /* Assets.xcassets */,
 				C71AD4562B9B757100D8C36F /* LaunchScreen.storyboard */,
 				C71AD4592B9B757100D8C36F /* Info.plist */,
@@ -145,6 +148,7 @@
 				C71AD44C2B9B756D00D8C36F /* AppDelegate.swift in Sources */,
 				C71AD44E2B9B756D00D8C36F /* SceneDelegate.swift in Sources */,
 				C71AD4602B9B801D00D8C36F /* Pin.swift in Sources */,
+				C71F5C682BA3852B00155C99 /* DetalleController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
