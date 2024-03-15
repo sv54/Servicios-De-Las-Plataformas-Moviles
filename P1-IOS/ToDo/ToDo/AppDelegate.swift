@@ -12,7 +12,8 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
+    let store = NSUbiquitousKeyValueStore.default
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current()
@@ -20,7 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             { (granted, error) in print(granted)}
   
         print("Token de dispositivo registrado previamente: \(UserDefaults.standard.string(forKey: "deviceToken"))")
-            
+        
+        if (store.synchronize()) {
+            print("Sincronización OK")
+        } else {
+            print("Problemas en la sincronización")
+        }
         
         UNUserNotificationCenter.current().delegate = self
         
@@ -44,8 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
          completionHandler()
      }
 
-    
-    
     func showAlert(message: String) {
         let alertController = UIAlertController(title: "Acción seleccionada", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

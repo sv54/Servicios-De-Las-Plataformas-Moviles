@@ -12,10 +12,20 @@ class NumItemsViewController: UIViewController {
 
     var terminados = 0
     @IBOutlet weak var numItems: UILabel!
+    let store = NSUbiquitousKeyValueStore.default
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Terminados desde icloud: " + String(Int(store.longLong(forKey: "tareasTerminadas"))))
+        print("Terminados desde total: " + String(terminados))
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("terminados")
+        store.set(terminados, forKey: "tareasTerminadas")
+        store.synchronize()
     }
     
     @IBAction func lanzarNotificacion(_ sender: Any) {
