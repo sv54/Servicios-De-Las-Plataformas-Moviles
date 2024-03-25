@@ -12,6 +12,7 @@ class ToDoTableViewController: UITableViewController {
 
     var toDoItems = [ToDoItem]()
     var itemsTerminados = 0
+    let store = NSUbiquitousKeyValueStore.default
     
     func borraItems() {
         var itemsPendientes = [ToDoItem]()
@@ -30,6 +31,11 @@ class ToDoTableViewController: UITableViewController {
         super.viewDidLoad()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        itemsTerminados = 0
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -121,13 +127,16 @@ class ToDoTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
-    
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ItemsTerminados" {
             if let destinationVC = segue.destination as? NumItemsViewController {
                 borraItems()
-                destinationVC.terminados = itemsTerminados
+                destinationVC.terminados = Int(store.longLong(forKey: "tareasTerminadas"))
+                print("Tareas terminadas ahora: " + String(itemsTerminados))
+                destinationVC.terminados += itemsTerminados
+                itemsTerminados = 0
             }
         }
     }

@@ -12,12 +12,60 @@ class NumItemsViewController: UIViewController {
 
     var terminados = 0
     @IBOutlet weak var numItems: UILabel!
+    let store = NSUbiquitousKeyValueStore.default
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Terminados desde icloud: " + String(Int(store.longLong(forKey: "tareasTerminadas"))))
+        print("Terminados desde total: " + String(terminados))
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("terminados")
+        store.set(terminados, forKey: "tareasTerminadas")
+        store.synchronize()
+    }
+    
+    @IBAction func lanzarNotificacion(_ sender: Any) {
+        print("lanzando notificacion")
+        let content = UNMutableNotificationContent()
+            content.title = "Notificacion pasado 10 segundos!"
+            content.body = "Pos eso"
+            content.sound = UNNotificationSound.default
+            
+            
+        if let imageURL = Bundle.main.url(forResource: "elGatooo", withExtension: "jpg") {
+            do {
+                let attachment = try UNNotificationAttachment(identifier: "imagenAttachment", url: imageURL, options: nil)
+                content.attachments = [attachment]
+            } catch {
+                print("Error al cargar la imagen como adjunto de notificación: \(error.localizedDescription)")
+            }
+        } else {
+            print("No se encontró la imagen en el bundle de la aplicación")
+        }
+            
+        let action1 = UNNotificationAction(identifier: "accion1", title: "Aceptar", options: [.foreground])
+        let action2 = UNNotificationAction(identifier: "accion2", title: "Cancelar", options: [.foreground])
+        let category = UNNotificationCategory(identifier: "category", actions: [action1, action2], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        content.categoryIdentifier = "category"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "notificationID", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if let error = error {
+                print("Error al programar la notificación: \(error.localizedDescription)")
+            } else {
+                print("Notificación programada exitosamente")
+            }
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
